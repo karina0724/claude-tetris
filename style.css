@@ -26,6 +26,11 @@
   --toggle-bg: #22223a;
   --toggle-color: #e0e0e0;
   --toggle-border: #3a3a5a;
+  --table-border: #2a2a3a;
+  --table-header-color: #555570;
+  --table-highlight-bg: rgba(122, 162, 247, 0.18);
+  --input-bg: #1a1a25;
+  --input-border: #3a3a5a;
 }
 
 body.light-mode {
@@ -50,6 +55,11 @@ body.light-mode {
   --toggle-bg: #e4e4ee;
   --toggle-color: #1a1a25;
   --toggle-border: #c8c8d8;
+  --table-border: #d8d8e4;
+  --table-header-color: #6b6b80;
+  --table-highlight-bg: rgba(59, 91, 219, 0.14);
+  --input-bg: #ffffff;
+  --input-border: #c8c8d8;
 }
 
 body {
@@ -185,35 +195,41 @@ kbd {
   background: var(--overlay-bg);
   backdrop-filter: blur(4px);
   border-radius: 4px;
+  padding: 16px;
+  overflow-y: auto;
 }
 
-.overlay.hidden {
-  display: none;
+.hidden {
+  display: none !important;
 }
 
 .overlay-box {
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  align-items: center;
+  gap: 10px;
+  align-items: stretch;
+  width: 220px;
+  max-width: 100%;
 }
 
-#overlay-title {
+.overlay-title {
   font-size: 28px;
   font-weight: 800;
   letter-spacing: 4px;
   color: var(--overlay-title-color);
+  margin-bottom: 4px;
 }
 
 #overlay-score {
   font-family: 'Courier New', Courier, monospace;
   font-size: 14px;
   color: var(--overlay-score-color);
+  margin-bottom: 4px;
 }
 
-#restart-btn {
-  margin-top: 8px;
+.overlay-box button {
+  margin-top: 4px;
   background: var(--button-bg);
   color: var(--button-color);
   border: none;
@@ -223,9 +239,136 @@ kbd {
   font-weight: 700;
   cursor: pointer;
   letter-spacing: 1px;
-  transition: background 0.15s;
+  transition: background 0.15s, opacity 0.15s;
 }
 
-#restart-btn:hover {
+.overlay-box button:hover {
   background: var(--button-hover);
+}
+
+.overlay-box button.secondary-btn {
+  background: var(--toggle-bg);
+  color: var(--toggle-color);
+  border: 1px solid var(--toggle-border);
+}
+
+.overlay-box button.secondary-btn:hover {
+  opacity: 0.85;
+}
+
+/* ---- Menu fields (selectors / inputs) ---- */
+.menu-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--label-color);
+  font-weight: 600;
+  text-align: left;
+}
+
+.menu-field select,
+.menu-field input {
+  background: var(--input-bg);
+  color: var(--fg);
+  border: 1px solid var(--input-border);
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 13px;
+  font-family: inherit;
+}
+
+/* ---- Controls list inside pause menu ---- */
+.controls-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 0;
+}
+
+.controls-list li {
+  font-size: 12px;
+  color: var(--controls-color);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  justify-content: center;
+}
+
+/* ---- Score panel / table ---- */
+.score-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.score-table {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--table-border);
+  border-radius: 6px;
+  overflow: hidden;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.score-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 8px;
+  font-size: 12px;
+  color: var(--fg);
+}
+
+.score-row:not(:last-child) {
+  border-bottom: 1px solid var(--table-border);
+}
+
+.score-row.empty {
+  color: var(--table-header-color);
+  justify-content: center;
+}
+
+.score-row.highlight {
+  background: var(--table-highlight-bg);
+  font-weight: 700;
+}
+
+.score-row .rank {
+  color: var(--table-header-color);
+  width: 20px;
+  text-align: left;
+}
+
+.score-row .name {
+  flex: 1;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stats-line {
+  font-size: 11px;
+  color: var(--controls-color);
+}
+
+/* ---- Skins ---- */
+body[data-skin="neon"] #board,
+body[data-skin="neon"] #next-canvas {
+  background: #000;
+  border-color: #2a2a3a;
+  box-shadow: 0 0 24px rgba(122, 162, 247, 0.25);
+}
+
+body[data-skin="pastel"] #board,
+body[data-skin="pastel"] #next-canvas {
+  border-radius: 14px;
+}
+
+body[data-skin="pixel"] #board,
+body[data-skin="pixel"] #next-canvas {
+  image-rendering: pixelated;
 }
